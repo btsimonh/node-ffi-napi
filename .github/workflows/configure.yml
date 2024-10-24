@@ -39,6 +39,10 @@ jobs:
           node-gyp build --node-dir=$(which node)
           echo "node-gyp rebuild"
           node-gyp rebuild --node-dir=$(which node)
+      - name: prebuild
+        shell: bash
+        run: |
+          npm run prebuild
       - uses: actions/upload-artifact@v4
         with:
           name: prebuilds
