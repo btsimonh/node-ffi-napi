@@ -25,6 +25,7 @@ desktop_sdk_info = sdkinfo('macosx')
 def latest_sdks():
     latest_desktop = None
     for line in subprocess.Popen(['xcodebuild', '-showsdks'], stdout=subprocess.PIPE).stdout:
+        print(line)
         match = sdk_re.match(line)
         if match:
             if 'OS X' in line:
@@ -138,6 +139,8 @@ def build_target(platform):
             basename, suffix = os.path.splitext(header_name)
 
 def main():
+    print('start generate-osx-source-and-headers')
+
     move_source_tree('src', 'osx/src', 'osx/include')
     move_source_tree('include', None, 'osx/include')
     build_target(desktop_platform_32)
