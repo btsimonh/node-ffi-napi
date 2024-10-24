@@ -174,7 +174,7 @@ describe('Callback', function () {
 
     it('multiple callback invocations from uv thread pool should be properly synchronized', function (done) {
       this.timeout(10000)
-      let iterations = 30;
+      let iterations = 3000;
       let cb = ffi.Callback('string', [ 'string' ], function (val) {
         if (val === "ping" && --iterations > 0) {
           return "pong";
