@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix: # macos-latest -> arm64, macos-13 -> x64
         #os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
-        os: [macos-13, macos-latest, ubuntu-latest]
+        os: [windows-latest, macos-13, macos-latest, ubuntu-latest]
         # < 16 not available in testing images
         #node-version: [22, 20, 18, 16]
         node-version: [22]
@@ -39,3 +39,9 @@ jobs:
           node-gyp build --node-dir=$(which node)
           echo "node-gyp rebuild"
           node-gyp rebuild --node-dir=$(which node)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prebuilds
+          path: prebuilds/ # or path/to/artifact
+
+
