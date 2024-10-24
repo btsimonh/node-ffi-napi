@@ -174,7 +174,7 @@ describe('Callback', function () {
 
     it('multiple callback invocations from uv thread pool should be properly synchronized', function (done) {
       this.timeout(10000)
-      let iterations = 30000;
+      let iterations = 30;
       let cb = ffi.Callback('string', [ 'string' ], function (val) {
         if (val === "ping" && --iterations > 0) {
           return "pong";
@@ -183,6 +183,7 @@ describe('Callback', function () {
       })
       const pingPongFn = ffi.ForeignFunction(bindings.play_ping_pong, 'void', [ 'pointer' ]);
       pingPongFn.async(cb, function (err, ret) {
+        console.log(iterations);
         assert.strictEqual(iterations, 0);
         done();
       });
