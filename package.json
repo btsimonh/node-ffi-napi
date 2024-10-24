@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "fs-extra": "^9.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.7.3",
     "nyc": "^15.0.0",
     "prebuildify": "^6.0.1",
     "prebuildify-ci": "^1.0.5",
