@@ -183,7 +183,6 @@ describe('Callback', function () {
       })
       const pingPongFn = ffi.ForeignFunction(bindings.play_ping_pong, 'void', [ 'pointer' ]);
       pingPongFn.async(cb, function (err, ret) {
-        console.log(iterations);
         assert.strictEqual(iterations, 0);
         done();
       });
