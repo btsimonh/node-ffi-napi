@@ -7,8 +7,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+      matrix: # macos-latest -> arm64, macos-13 -> x64
+        os: [windows-latest, macos-13, macos-latest, ubuntu-latest]
+        # < 16 not available in testing images
+        node-version: [22, 20, 18]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,20 +20,16 @@ jobs:
           python-version: 3.9
       - uses: actions/setup-node@v4
         with:
-          node-version: '14'
-      - name: install dependencies and test
+          node-version: ${{ matrix.node-version }}
+      - name: install dependencies, prebuild and test
         shell: bash
         run: |
           npm install
+          npm run prebuild
           npm test
-      - name: build with node-gyp
-        shell: bash
-        run: |
-          npm install -g node-gyp
-          which node || true
-          whereis node || true
-          # node-gyp configure --node-dir=$(which node)
-          echo "node-gyp build"
-          node-gyp build --node-dir=$(which node)
-          echo "node-gyp rebuild"
-          node-gyp rebuild --node-dir=$(which node)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: node-ffi-napi-prebuild-${{ matrix.os }}-${{ matrix.node-version }}
+          path: prebuilds/ # or path/to/artifact
+
+
