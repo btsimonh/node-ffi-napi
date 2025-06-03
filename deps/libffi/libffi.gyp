@@ -9,11 +9,16 @@
 {
   'variables': {
     'target_arch%': 'ia32', # built for a 32-bit CPU by default
-    # Define target_platform, default to 'msvc' on Windows, empty otherwise
+    # Automatically detect platform based on os.type()
+    'os_type%': '<!(node -p "require(\'os\').type()")',
+    'is_mingw%': '<!(node -p "require(\'os\').type().startsWith(\'MINGW\') ? \'true\' : \'false\'")',
     'target_platform%': '',
     'conditions': [
-      ['OS=="win"', {
-        'target_platform%': 'msvc', # Default platform on Windows is MSVC
+      ['OS=="win" and is_mingw=="true"', {
+        'target_platform%': 'mingw',
+      }],
+      ['OS=="win" and is_mingw=="false"', {
+        'target_platform%': 'msvc',
       }],
     ],
   },
