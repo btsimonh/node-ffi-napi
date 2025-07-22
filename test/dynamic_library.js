@@ -23,7 +23,8 @@ describe('DynamicLibrary', function () {
       const handle = DynamicLibrary(lib + ffi.LIB_EXT);
       const symbol = handle.get('free');
       assert(Buffer.isBuffer(symbol));
-      assert.strictEqual(0, symbol.length);
+      // length of pointers is now one, becuase else nodejs does n ot allow them to have an address.
+      assert.strictEqual(1, symbol.length);
     });
 
     it('should set the "name" property to the name of the symbol', function () {
